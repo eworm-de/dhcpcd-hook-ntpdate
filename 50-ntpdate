@@ -4,7 +4,9 @@ case "${reason}" in
 	BOUND|REBIND|REBOOT|RENEW|TIMEOUT|STATIC)
 		# sync time as soon as connection is up
 		# this reads nameserver from /etc/ntp.conf
-		ntpd --quit --panicgate
+		if ! pidof ntpd >/dev/null; then
+			ntpd --quit --panicgate
+		fi
 		# alternatively use ntpdate and give hostname
 		#ntpdate -u pool.ntp.org
 		;;
